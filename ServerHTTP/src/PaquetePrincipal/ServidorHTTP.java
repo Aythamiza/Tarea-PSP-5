@@ -18,7 +18,15 @@ import java.net.ServerSocket;
  *
  * @author IMCG
  */
-class ServidorHTTP {
+class ServidorHTTP extends Thread{
+    //agregamos un constructos a la clase servidor
+    Socket skCliente;
+
+    public ServidorHTTP(Socket sCliente) {
+
+        skCliente = sCliente;
+
+    }
 
   /**
    * **************************************************************************
@@ -41,6 +49,10 @@ class ServidorHTTP {
       socCliente = socServidor.accept();
       //atiendo un cliente
       System.out.println("Atendiendo al cliente ");
+      
+      // Atiendo al cliente mediante un thread  
+      new ServidorHTTP(socCliente).start();
+      
       procesaPeticion(socCliente);
       //cierra la conexión entrante
       socCliente.close();
